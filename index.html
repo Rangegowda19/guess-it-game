@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guess It! — Animals, Birds, Fruits & Veggies</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EAF4FF; --card:#FFFFFF; --ink:#22315C; --ink-soft:#6B7AA8;
+    --sun:#FFB020; --grape:#7C5CFC; --leaf:#2FBF71; --berry:#FF6B7A;
+    --sky:#4FA8F5; --shadow:0 8px 0 rgba(34,49,92,.12);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  body{
+    margin:0; min-height:100vh; background:var(--bg);
+    background-image:radial-gradient(#fff 18%, transparent 19%), radial-gradient(#fff 18%, transparent 19%);
+    background-size:46px 46px; background-position:0 0,23px 23px;
+    font-family:"Nunito","Segoe UI",system-ui,sans-serif; color:var(--ink);
+    display:flex; flex-direction:column; align-items:center; padding:16px;
+  }
+  h1,h2,.btn,.opt{font-family:"Baloo 2","Nunito",sans-serif;}
+  h1{font-size:clamp(26px,5vw,40px); margin:8px 0 2px; font-weight:800; letter-spacing:.5px;}
+  h1 .dot{color:var(--berry);}
+  .tag{color:var(--ink-soft); font-weight:800; margin:0 0 18px; font-size:15px;}
+
+  /* ---------- screens ---------- */
+  .screen{width:100%; max-width:520px; display:none; flex-direction:column; align-items:center;}
+  .screen.on{display:flex;}
+
+  /* ---------- menu ---------- */
+  .cats{display:grid; grid-template-columns:1fr 1fr; gap:14px; width:100%;}
+  .cat{
+    background:var(--card); border:none; border-radius:22px; padding:22px 10px 16px;
+    box-shadow:var(--shadow); cursor:pointer; font-family:"Baloo 2",sans-serif;
+    font-size:19px; font-weight:800; color:var(--ink);
+    transition:transform .12s ease;
+  }
+  .cat:active{transform:scale(.95);}
+  .cat span{display:block; font-size:52px; margin-bottom:6px;}
+  .cat.mix{grid-column:1/-1;}
+  .agebar{display:flex; gap:8px; margin:20px 0 6px; background:#fff; padding:6px; border-radius:999px; box-shadow:var(--shadow);}
+  .agebar button{
+    border:none; background:transparent; border-radius:999px; padding:8px 16px;
+    font-family:"Baloo 2",sans-serif; font-weight:800; font-size:15px; color:var(--ink-soft); cursor:pointer;
+  }
+  .agebar button.sel{background:var(--grape); color:#fff;}
+  .agelabel{font-size:13px; font-weight:800; color:var(--ink-soft); margin-bottom:4px;}
+
+  /* ---------- game ---------- */
+  .topbar{display:flex; width:100%; justify-content:space-between; align-items:center; margin-bottom:10px;}
+  .pill{background:#fff; border-radius:999px; padding:6px 14px; font-weight:800; box-shadow:var(--shadow); font-size:15px;}
+  .pill.stars{color:var(--sun);}
+  .home{border:none; background:#fff; border-radius:999px; width:40px; height:40px; font-size:18px; cursor:pointer; box-shadow:var(--shadow);}
+  .stage{
+    background:var(--card); width:100%; border-radius:28px; padding:26px 18px 22px;
+    box-shadow:var(--shadow); text-align:center; position:relative; overflow:hidden;
+  }
+  .question{font-weight:800; color:var(--ink-soft); font-size:17px; margin:0 0 6px;}
+  .bigmoji{
+    font-size:clamp(96px,30vw,150px); line-height:1.15; margin:6px 0 4px;
+    filter:drop-shadow(0 6px 0 rgba(34,49,92,.10)); user-select:none;
+    animation:pop .4s ease;
+  }
+  @keyframes pop{from{transform:scale(.4); opacity:0;} to{transform:scale(1); opacity:1;}}
+  .heard{min-height:22px; font-size:15px; font-weight:800; color:var(--sky);}
+  .fb{min-height:30px; font-size:20px; font-weight:800; margin:4px 0 2px;}
+  .fb.good{color:var(--leaf);} .fb.try{color:var(--sun);} .fb.ans{color:var(--berry);}
+
+  .micwrap{display:flex; flex-direction:column; align-items:center; gap:4px; margin:10px 0 6px;}
+  .mic{
+    width:86px; height:86px; border-radius:50%; border:none; cursor:pointer;
+    background:var(--berry); color:#fff; font-size:38px; box-shadow:0 8px 0 #d84b5b;
+    transition:transform .12s ease; position:relative;
+  }
+  .mic:active{transform:translateY(4px); box-shadow:0 4px 0 #d84b5b;}
+  .mic.listening{background:var(--leaf); box-shadow:0 8px 0 #1e9457; animation:pulse 1s infinite;}
+  .mic:disabled{background:#c9d2e8; box-shadow:0 8px 0 #aeb9d6; cursor:default;}
+  @keyframes pulse{0%,100%{transform:scale(1);} 50%{transform:scale(1.07);}}
+  .miclabel{font-size:13px; font-weight:800; color:var(--ink-soft);}
+
+  .opts{display:grid; grid-template-columns:1fr; gap:10px; width:100%; margin-top:8px;}
+  .opt{
+    border:none; background:#F2F5FF; color:var(--ink); border-radius:16px; padding:14px;
+    font-size:20px; font-weight:800; cursor:pointer; box-shadow:0 4px 0 rgba(34,49,92,.10);
+    transition:transform .1s ease;
+  }
+  .opt:active{transform:scale(.97);}
+  .opt.right{background:var(--leaf); color:#fff;}
+  .opt.wrong{background:var(--berry); color:#fff;}
+
+  .rowbtns{display:flex; gap:10px; margin-top:14px; width:100%;}
+  .btn{
+    flex:1; border:none; border-radius:16px; padding:13px; font-size:17px; font-weight:800;
+    cursor:pointer; color:#fff; box-shadow:var(--shadow); transition:transform .1s ease;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn.repeat{background:var(--sky);} .btn.next{background:var(--grape);}
+
+  /* confetti */
+  .cf{position:absolute; top:-10px; font-size:22px; animation:fall 1.4s ease-in forwards; pointer-events:none;}
+  @keyframes fall{to{transform:translateY(420px) rotate(360deg); opacity:0;}}
+
+  /* end screen */
+  .trophy{font-size:96px; margin:10px 0;}
+  .score-big{font-size:26px; font-weight:800; margin:4px 0 16px;}
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+</style>
+</head>
+<body>
+<h1>Guess It<span class="dot">!</span></h1>
+<p class="tag">Look 👀 · Say it out loud 🎤 · Learn 🌟</p>
+
+<!-- ============ MENU ============ -->
+<section class="screen on" id="menu">
+  <div class="agelabel">How old are you?</div>
+  <div class="agebar" id="agebar">
+    <button data-age="0" class="sel">4–6</button>
+    <button data-age="1">7–9</button>
+    <button data-age="2">10–12</button>
+  </div>
+  <div class="cats">
+    <button class="cat" data-cat="animals"><span>🦁</span>Animals</button>
+    <button class="cat" data-cat="birds"><span>🦜</span>Birds</button>
+    <button class="cat" data-cat="fruits"><span>🍎</span>Fruits</button>
+    <button class="cat" data-cat="veggies"><span>🥕</span>Veggies</button>
+    <button class="cat mix" data-cat="mix"><span>🎲</span>Surprise Mix!</button>
+  </div>
+</section>
+
+<!-- ============ GAME ============ -->
+<section class="screen" id="game">
+  <div class="topbar">
+    <button class="home" id="homeBtn" title="Back to menu">🏠</button>
+    <div class="pill" id="progress">1 / 8</div>
+    <div class="pill stars" id="stars">⭐ 0</div>
+  </div>
+  <div class="stage">
+    <p class="question" id="question">What animal is this?</p>
+    <div class="bigmoji" id="bigmoji">🐘</div>
+    <div class="heard" id="heard"></div>
+    <div class="fb" id="fb"></div>
+    <div class="micwrap" id="micwrap">
+      <button class="mic" id="micBtn">🎤</button>
+      <div class="miclabel" id="micLabel">Tap and say the answer!</div>
+    </div>
+    <div class="opts" id="opts"></div>
+    <div class="rowbtns">
+      <button class="btn repeat" id="repeatBtn">🔊 Hear again</button>
+      <button class="btn next" id="nextBtn">Skip ➜</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ END ============ -->
+<section class="screen" id="end">
+  <div class="stage">
+    <div class="trophy" id="trophyEmoji">🏆</div>
+    <div class="score-big" id="finalScore">You got 8 stars!</div>
+    <div class="fb good" id="finalMsg">Amazing job!</div>
+    <div class="rowbtns">
+      <button class="btn repeat" id="againBtn">🔁 Play again</button>
+      <button class="btn next" id="menuBtn">🏠 Menu</button>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ================= ITEM BANK =================
+   difficulty: 0 = 4–6yrs, 1 = 7–9, 2 = 10–12 (each age includes lower tiers) */
+const BANK = {
+  animals: [
+    {n:"dog",e:"🐶",d:0,syn:["doggy","puppy"]},
+    {n:"cat",e:"🐱",d:0,syn:["kitty","kitten"]},
+    {n:"cow",e:"🐮",d:0,syn:[]},
+    {n:"elephant",e:"🐘",d:0,syn:["hathi"]},
+    {n:"lion",e:"🦁",d:0,syn:["sher"]},
+    {n:"monkey",e:"🐵",d:0,syn:["bandar"]},
+    {n:"tiger",e:"🐯",d:1,syn:["bagh"]},
+    {n:"horse",e:"🐴",d:1,syn:["ghoda"]},
+    {n:"sheep",e:"🐑",d:1,syn:["lamb"]},
+    {n:"rabbit",e:"🐰",d:1,syn:["bunny","hare","khargosh"]},
+    {n:"bear",e:"🐻",d:1,syn:["bhalu"]},
+    {n:"pig",e:"🐷",d:1,syn:["piglet"]},
+    {n:"giraffe",e:"🦒",d:1,syn:[]},
+    {n:"zebra",e:"🦓",d:2,syn:[]},
+    {n:"camel",e:"🐪",d:2,syn:["oont"]},
+    {n:"kangaroo",e:"🦘",d:2,syn:[]},
+    {n:"rhinoceros",e:"🦏",d:2,syn:["rhino","genda"]},
+    {n:"crocodile",e:"🐊",d:2,syn:["alligator","magar"]},
+    {n:"fox",e:"🦊",d:2,syn:[]},
+    {n:"wolf",e:"🐺",d:2,syn:[]},
+  ],
+  birds: [
+    {n:"hen",e:"🐔",d:0,syn:["chicken","murgi"]},
+    {n:"duck",e:"🦆",d:0,syn:["batak"]},
+    {n:"parrot",e:"🦜",d:0,syn:["tota"]},
+    {n:"chick",e:"🐤",d:0,syn:["baby chicken","chicken","chuza"]},
+    {n:"owl",e:"🦉",d:1,syn:["ullu"]},
+    {n:"peacock",e:"🦚",d:1,syn:["mor","peahen"]},
+    {n:"penguin",e:"🐧",d:1,syn:[]},
+    {n:"eagle",e:"🦅",d:1,syn:["baaz","hawk"]},
+    {n:"swan",e:"🦢",d:2,syn:["hans"]},
+    {n:"flamingo",e:"🦩",d:2,syn:[]},
+    {n:"turkey",e:"🦃",d:2,syn:[]},
+    {n:"dove",e:"🕊️",d:2,syn:["pigeon","kabutar"]},
+  ],
+  fruits: [
+    {n:"apple",e:"🍎",d:0,syn:["seb"]},
+    {n:"banana",e:"🍌",d:0,syn:["kela"]},
+    {n:"mango",e:"🥭",d:0,syn:["aam"]},
+    {n:"orange",e:"🍊",d:0,syn:["santra","tangerine"]},
+    {n:"grapes",e:"🍇",d:0,syn:["grape","angoor"]},
+    {n:"watermelon",e:"🍉",d:1,syn:["tarbooz"]},
+    {n:"strawberry",e:"🍓",d:1,syn:["strawberries"]},
+    {n:"pineapple",e:"🍍",d:1,syn:["ananas"]},
+    {n:"cherry",e:"🍒",d:1,syn:["cherries"]},
+    {n:"lemon",e:"🍋",d:1,syn:["nimbu","lime"]},
+    {n:"coconut",e:"🥥",d:2,syn:["nariyal"]},
+    {n:"peach",e:"🍑",d:2,syn:["aadu"]},
+    {n:"pear",e:"🍐",d:2,syn:["nashpati"]},
+    {n:"kiwi",e:"🥝",d:2,syn:["kiwifruit"]},
+    {n:"blueberry",e:"🫐",d:2,syn:["blueberries"]},
+  ],
+  veggies: [
+    {n:"carrot",e:"🥕",d:0,syn:["gajar"]},
+    {n:"tomato",e:"🍅",d:0,syn:["tamatar"]},
+    {n:"potato",e:"🥔",d:0,syn:["aloo"]},
+    {n:"corn",e:"🌽",d:0,syn:["maize","bhutta","sweet corn"]},
+    {n:"onion",e:"🧅",d:1,syn:["pyaz"]},
+    {n:"cucumber",e:"🥒",d:1,syn:["kheera"]},
+    {n:"brinjal",e:"🍆",d:1,syn:["eggplant","aubergine","baingan"]},
+    {n:"chilli",e:"🌶️",d:1,syn:["chili","pepper","mirchi","chilli pepper"]},
+    {n:"broccoli",e:"🥦",d:2,syn:[]},
+    {n:"mushroom",e:"🍄",d:2,syn:["mushrooms"]},
+    {n:"garlic",e:"🧄",d:2,syn:["lehsun"]},
+    {n:"peas",e:"🫛",d:2,syn:["pea","matar","green peas"]},
+  ]
+};
+const CAT_WORD = {animals:"animal", birds:"bird", fruits:"fruit", veggies:"vegetable"};
+const ROUND_LEN = 8;
+const PRAISE = ["Great job!","Super!","You got it!","Wonderful!","Wow, correct!","Fantastic!"];
+const TRY_AGAIN = ["Good try! Listen and try once more.","Almost! Try again.","Nice try! One more time."];
+
+/* ================= STATE ================= */
+let age = 0, cat = "animals", items = [], idx = 0, stars = 0, attempts = 0;
+let listening = false, rec = null;
+
+/* ================= HELPERS ================= */
+const $ = id => document.getElementById(id);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function norm(s){return s.toLowerCase().replace(/[^a-z\s]/g,"").replace(/\s+/g," ").trim();}
+function lev(a,b){
+  const m=[...Array(a.length+1)].map((_,i)=>[i,...Array(b.length).fill(0)]);
+  for(let j=0;j<=b.length;j++)m[0][j]=j;
+  for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)
+    m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]===b[j-1]?0:1));
+  return m[a.length][b.length];
+}
+function isMatch(heard, item){
+  const words = [item.n, ...item.syn].map(norm);
+  const h = norm(heard);
+  if(!h) return false;
+  for(const w of words){
+    if(h===w || h.includes(w)) return true;
+    const tol = w.length>=6 ? 2 : w.length>=4 ? 1 : 0;
+    for(const token of h.split(" ")) if(lev(token,w)<=tol) return true;
+  }
+  return false;
+}
+
+/* ================= SPEECH OUT ================= */
+let voice = null;
+function pickVoice(){
+  const vs = speechSynthesis.getVoices();
+  voice = vs.find(v=>/en[-_]IN/i.test(v.lang)) || vs.find(v=>/^en/i.test(v.lang)) || vs[0] || null;
+}
+speechSynthesis.onvoiceschanged = pickVoice; pickVoice();
+function say(text, cb){
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    if(voice) u.voice = voice;
+    u.rate = 0.92; u.pitch = 1.1;
+    if(cb) u.onend = cb;
+    speechSynthesis.speak(u);
+  }catch(e){ if(cb) cb(); }
+}
+
+/* ================= SPEECH IN ================= */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if(SR){
+  rec = new SR();
+  rec.lang = "en-IN"; rec.interimResults = true; rec.maxAlternatives = 4;
+  rec.onresult = e => {
+    let txt = "";
+    for(const r of e.results) txt += r[0].transcript + " ";
+    $("heard").textContent = "I heard: “" + txt.trim() + "”";
+    const last = e.results[e.results.length-1];
+    if(last.isFinal){
+      const alts = [...last].map(a=>a.transcript).join(" ");
+      checkAnswer(alts);
+    }
+  };
+  rec.onend = () => setListening(false);
+  rec.onerror = () => { setListening(false); showMicUnavailable(); };
+}else{ showMicUnavailable(); }
+
+function setListening(on){
+  listening = on;
+  $("micBtn").classList.toggle("listening", on);
+  $("micLabel").textContent = on ? "Listening… speak now!" : "Tap and say the answer!";
+}
+function showMicUnavailable(){
+  $("micLabel").textContent = "Mic not available here — tap an answer below!";
+}
+
+/* ================= GAME FLOW ================= */
+document.querySelectorAll("#agebar button").forEach(b=>{
+  b.onclick = ()=>{ document.querySelectorAll("#agebar button").forEach(x=>x.classList.remove("sel")); b.classList.add("sel"); age=+b.dataset.age; };
+});
+document.querySelectorAll(".cat").forEach(b=> b.onclick = ()=> startRound(b.dataset.cat));
+$("homeBtn").onclick = $("menuBtn").onclick = ()=>{ speechSynthesis.cancel(); show("menu"); };
+$("againBtn").onclick = ()=> startRound(cat);
+$("repeatBtn").onclick = ()=> askQuestion(false);
+$("nextBtn").onclick = ()=> revealThenNext(true);
+$("micBtn").onclick = ()=>{
+  if(!rec) return;
+  if(listening){ rec.stop(); return; }
+  $("heard").textContent = ""; setListening(true);
+  try{ rec.start(); }catch(e){ setListening(false); }
+};
+
+function show(id){ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on")); $(id).classList.add("on"); }
+
+function startRound(chosen){
+  cat = chosen;
+  let pool = chosen==="mix"
+    ? Object.values(BANK).flat()
+    : BANK[chosen];
+  pool = pool.filter(it=>it.d<=age);
+  items = shuffle([...pool]).slice(0, ROUND_LEN).map(it=>{
+    const c = chosen==="mix" ? Object.keys(BANK).find(k=>BANK[k].includes(it)) : chosen;
+    return {...it, cat:c};
+  });
+  idx = 0; stars = 0;
+  show("game");
+  nextItem(true);
+}
+
+function nextItem(first){
+  if(idx >= items.length){ return endRound(); }
+  attempts = 0;
+  const it = items[idx];
+  $("progress").textContent = (idx+1) + " / " + items.length;
+  $("stars").textContent = "⭐ " + stars;
+  $("bigmoji").textContent = it.e;
+  $("bigmoji").style.animation="none"; void $("bigmoji").offsetWidth; $("bigmoji").style.animation="";
+  $("question").textContent = "What " + CAT_WORD[it.cat] + " is this?";
+  $("fb").textContent = ""; $("fb").className="fb"; $("heard").textContent="";
+  buildOptions(it);
+  askQuestion(true);
+}
+
+function askQuestion(){ const it = items[idx]; say("What " + CAT_WORD[it.cat] + " is this?"); }
+
+function buildOptions(it){
+  const pool = BANK[it.cat].filter(x=>x.n!==it.n);
+  const wrong = shuffle([...pool]).slice(0,2);
+  const opts = shuffle([it, ...wrong]);
+  $("opts").innerHTML = "";
+  opts.forEach(o=>{
+    const b = document.createElement("button");
+    b.className="opt"; b.textContent = o.n[0].toUpperCase()+o.n.slice(1);
+    b.onclick = ()=> checkAnswer(o.n, b);
+    $("opts").appendChild(b);
+  });
+}
+
+function checkAnswer(heard, btn){
+  const it = items[idx];
+  if(isMatch(heard, it)){
+    if(btn) btn.classList.add("right");
+    stars++; $("stars").textContent = "⭐ " + stars;
+    const p = PRAISE[Math.floor(Math.random()*PRAISE.length)];
+    $("fb").textContent = "🎉 " + p + " It's a " + it.n + "!";
+    $("fb").className = "fb good";
+    confetti();
+    say(p + " It is a " + it.n + "!", ()=> setTimeout(advance, 400));
+  }else{
+    attempts++;
+    if(btn) { btn.classList.add("wrong"); setTimeout(()=>btn.classList.remove("wrong"), 700); }
+    if(attempts < 2){
+      const t = TRY_AGAIN[Math.floor(Math.random()*TRY_AGAIN.length)];
+      $("fb").textContent = "💛 " + t;
+      $("fb").className = "fb try";
+      say(t);
+    }else{
+      revealThenNext(false);
+    }
+  }
+}
+
+function revealThenNext(skipped){
+  const it = items[idx];
+  $("fb").textContent = "It's a " + it.n + "! Can you say “" + it.n + "”?";
+  $("fb").className = "fb ans";
+  say((skipped ? "" : "Good try! ") + "This is a " + it.n + ". Can you say " + it.n + "?",
+      ()=> setTimeout(advance, 1200));
+}
+
+function advance(){ idx++; nextItem(); }
+
+function endRound(){
+  show("end");
+  const pct = stars/items.length;
+  $("trophyEmoji").textContent = pct>=0.8 ? "🏆" : pct>=0.5 ? "🌟" : "💪";
+  $("finalScore").textContent = "You got " + stars + " out of " + items.length + " stars!";
+  const msg = pct>=0.8 ? "Amazing! You're a superstar!" : pct>=0.5 ? "Great work! Keep practicing!" : "Good effort! Let's play again!";
+  $("finalMsg").textContent = msg;
+  say("You got " + stars + " stars! " + msg);
+}
+
+function confetti(){
+  const stage = document.querySelector("#game .stage");
+  const bits = ["🎉","⭐","🎊","✨","🌟"];
+  for(let i=0;i<12;i++){
+    const s = document.createElement("span");
+    s.className="cf"; s.textContent = bits[Math.floor(Math.random()*bits.length)];
+    s.style.left = (5+Math.random()*90)+"%";
+    s.style.animationDelay = (Math.random()*0.4)+"s";
+    stage.appendChild(s);
+    setTimeout(()=>s.remove(), 2000);
+  }
+}
+</script>
+</body>
+</html>
