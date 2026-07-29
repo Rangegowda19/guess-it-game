@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Guess It! — Animals, Birds, Fruits & Veggies</title>
+<title>Chinnu — Learn & Play</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -19,105 +19,141 @@
     font-family:"Nunito","Segoe UI",system-ui,sans-serif; color:var(--ink);
     display:flex; flex-direction:column; align-items:center; padding:16px;
   }
-  h1,h2,.btn,.opt{font-family:"Baloo 2","Nunito",sans-serif;}
-  h1{font-size:clamp(26px,5vw,40px); margin:8px 0 2px; font-weight:800; letter-spacing:.5px;}
+  h1,.btn,.opt,.act,.cat{font-family:"Baloo 2","Nunito",sans-serif;}
+  h1{font-size:clamp(24px,5vw,38px); margin:6px 0 2px; font-weight:800;}
   h1 .dot{color:var(--berry);}
-  .tag{color:var(--ink-soft); font-weight:800; margin:0 0 18px; font-size:15px;}
-
-  /* ---------- screens ---------- */
+  .tag{color:var(--ink-soft); font-weight:800; margin:0 0 16px; font-size:15px;}
   .screen{width:100%; max-width:520px; display:none; flex-direction:column; align-items:center;}
   .screen.on{display:flex;}
-
-  /* ---------- menu ---------- */
-  .cats{display:grid; grid-template-columns:1fr 1fr; gap:14px; width:100%;}
-  .cat{
-    background:var(--card); border:none; border-radius:22px; padding:22px 10px 16px;
-    box-shadow:var(--shadow); cursor:pointer; font-family:"Baloo 2",sans-serif;
-    font-size:19px; font-weight:800; color:var(--ink);
-    transition:transform .12s ease;
-  }
-  .cat:active{transform:scale(.95);}
-  .cat span{display:block; font-size:52px; margin-bottom:6px;}
-  .cat.mix{grid-column:1/-1;}
-  .agebar{display:flex; gap:8px; margin:20px 0 6px; background:#fff; padding:6px; border-radius:999px; box-shadow:var(--shadow);}
-  .agebar button{
-    border:none; background:transparent; border-radius:999px; padding:8px 16px;
-    font-family:"Baloo 2",sans-serif; font-weight:800; font-size:15px; color:var(--ink-soft); cursor:pointer;
-  }
-  .agebar button.sel{background:var(--grape); color:#fff;}
-  .agelabel{font-size:13px; font-weight:800; color:var(--ink-soft); margin-bottom:4px;}
-
-  /* ---------- game ---------- */
+  .stage{background:var(--card); width:100%; border-radius:28px; padding:26px 18px 22px; box-shadow:var(--shadow); text-align:center; position:relative; overflow:hidden;}
   .topbar{display:flex; width:100%; justify-content:space-between; align-items:center; margin-bottom:10px;}
   .pill{background:#fff; border-radius:999px; padding:6px 14px; font-weight:800; box-shadow:var(--shadow); font-size:15px;}
   .pill.stars{color:var(--sun);}
   .home{border:none; background:#fff; border-radius:999px; width:40px; height:40px; font-size:18px; cursor:pointer; box-shadow:var(--shadow);}
-  .stage{
-    background:var(--card); width:100%; border-radius:28px; padding:26px 18px 22px;
-    box-shadow:var(--shadow); text-align:center; position:relative; overflow:hidden;
-  }
-  .question{font-weight:800; color:var(--ink-soft); font-size:17px; margin:0 0 6px;}
-  .bigmoji{
-    font-size:clamp(96px,30vw,150px); line-height:1.15; margin:6px 0 4px;
-    filter:drop-shadow(0 6px 0 rgba(34,49,92,.10)); user-select:none;
-    animation:pop .4s ease;
-  }
-  @keyframes pop{from{transform:scale(.4); opacity:0;} to{transform:scale(1); opacity:1;}}
-  .heard{min-height:22px; font-size:15px; font-weight:800; color:var(--sky);}
-  .fb{min-height:30px; font-size:20px; font-weight:800; margin:4px 0 2px;}
-  .fb.good{color:var(--leaf);} .fb.try{color:var(--sun);} .fb.ans{color:var(--berry);}
 
-  .micwrap{display:flex; flex-direction:column; align-items:center; gap:4px; margin:10px 0 6px;}
-  .mic{
-    width:86px; height:86px; border-radius:50%; border:none; cursor:pointer;
-    background:var(--berry); color:#fff; font-size:38px; box-shadow:0 8px 0 #d84b5b;
-    transition:transform .12s ease; position:relative;
-  }
+  /* setup */
+  .namein{width:100%; border:3px solid #E2E9FA; border-radius:16px; padding:14px; font-size:20px; font-weight:800; font-family:"Baloo 2"; color:var(--ink); text-align:center; outline:none; margin:8px 0 14px;}
+  .namein:focus{border-color:var(--grape);}
+  .agebar{display:flex; gap:8px; margin:6px 0 18px; background:#F2F5FF; padding:6px; border-radius:999px; justify-content:center;}
+  .agebar button{border:none; background:transparent; border-radius:999px; padding:8px 16px; font-family:"Baloo 2"; font-weight:800; font-size:15px; color:var(--ink-soft); cursor:pointer;}
+  .agebar button.sel{background:var(--grape); color:#fff;}
+  .lbl{font-size:14px; font-weight:800; color:var(--ink-soft);}
+
+  /* home */
+  .hello{font-family:"Baloo 2"; font-size:clamp(20px,5vw,26px); font-weight:800; margin:0 0 2px;}
+  .statrow{display:flex; gap:10px; width:100%; margin:12px 0;}
+  .stat{flex:1; background:#fff; border-radius:18px; padding:10px; text-align:center; box-shadow:var(--shadow);}
+  .stat b{display:block; font-family:"Baloo 2"; font-size:22px;}
+  .stat span{font-size:12px; font-weight:800; color:var(--ink-soft);}
+  .acts{display:grid; gap:14px; width:100%;}
+  .act{background:var(--card); border:none; border-radius:22px; padding:18px 14px; box-shadow:var(--shadow); cursor:pointer; font-size:20px; font-weight:800; color:var(--ink); transition:transform .12s; display:flex; align-items:center; gap:14px; text-align:left;}
+  .act:active{transform:scale(.97);}
+  .act .ic{font-size:44px;}
+  .act small{display:block; font-family:"Nunito"; font-size:13px; color:var(--ink-soft); font-weight:800;}
+  .editbtn{border:none; background:transparent; color:var(--ink-soft); font-weight:800; font-size:13px; cursor:pointer; margin-top:12px; text-decoration:underline;}
+
+  /* guess-it categories */
+  .cats{display:grid; grid-template-columns:1fr 1fr; gap:14px; width:100%;}
+  .cat{background:var(--card); border:none; border-radius:22px; padding:20px 10px 14px; box-shadow:var(--shadow); cursor:pointer; font-size:18px; font-weight:800; color:var(--ink); transition:transform .12s;}
+  .cat:active{transform:scale(.95);}
+  .cat span{display:block; font-size:48px; margin-bottom:6px;}
+  .cat.mix{grid-column:1/-1;}
+
+  /* guess-it game + quiz shared */
+  .question{font-weight:800; font-size:clamp(18px,4.5vw,23px); margin:2px 0 8px; font-family:"Baloo 2";}
+  .qsub{font-weight:800; color:var(--ink-soft); font-size:16px; margin:0 0 6px;}
+  .bigmoji{font-size:clamp(96px,30vw,150px); line-height:1.15; margin:6px 0 4px; filter:drop-shadow(0 6px 0 rgba(34,49,92,.10)); user-select:none; animation:pop .4s ease;}
+  @keyframes pop{from{transform:scale(.4); opacity:0;} to{transform:scale(1); opacity:1;}}
+  .heard{min-height:20px; font-size:14px; font-weight:800; color:var(--sky);}
+  .fb{min-height:28px; font-size:19px; font-weight:800; margin:6px 0 0;}
+  .fb.good{color:var(--leaf);} .fb.try{color:var(--sun);} .fb.ans{color:var(--berry);}
+  .micwrap{display:flex; flex-direction:column; align-items:center; gap:4px; margin:8px 0 4px;}
+  .mic{width:76px; height:76px; border-radius:50%; border:none; cursor:pointer; background:var(--berry); color:#fff; font-size:34px; box-shadow:0 8px 0 #d84b5b; transition:transform .12s;}
   .mic:active{transform:translateY(4px); box-shadow:0 4px 0 #d84b5b;}
   .mic.listening{background:var(--leaf); box-shadow:0 8px 0 #1e9457; animation:pulse 1s infinite;}
-  .mic:disabled{background:#c9d2e8; box-shadow:0 8px 0 #aeb9d6; cursor:default;}
-  @keyframes pulse{0%,100%{transform:scale(1);} 50%{transform:scale(1.07);}}
+  @keyframes pulse{0%,100%{transform:scale(1);} 50%{transform:scale(1.06);}}
   .miclabel{font-size:13px; font-weight:800; color:var(--ink-soft);}
-
   .opts{display:grid; grid-template-columns:1fr; gap:10px; width:100%; margin-top:8px;}
-  .opt{
-    border:none; background:#F2F5FF; color:var(--ink); border-radius:16px; padding:14px;
-    font-size:20px; font-weight:800; cursor:pointer; box-shadow:0 4px 0 rgba(34,49,92,.10);
-    transition:transform .1s ease;
-  }
-  .opt:active{transform:scale(.97);}
+  .opts.pics{grid-template-columns:repeat(3,1fr);}
+  .opt{border:none; background:#F2F5FF; color:var(--ink); border-radius:16px; padding:13px 6px; font-size:18px; font-weight:800; cursor:pointer; box-shadow:0 4px 0 rgba(34,49,92,.10); transition:transform .1s;}
+  .opt span{display:block; font-size:42px; margin-bottom:4px;}
+  .opt:active{transform:scale(.96);}
   .opt.right{background:var(--leaf); color:#fff;}
   .opt.wrong{background:var(--berry); color:#fff;}
-
   .rowbtns{display:flex; gap:10px; margin-top:14px; width:100%;}
-  .btn{
-    flex:1; border:none; border-radius:16px; padding:13px; font-size:17px; font-weight:800;
-    cursor:pointer; color:#fff; box-shadow:var(--shadow); transition:transform .1s ease;
-  }
+  .btn{flex:1; border:none; border-radius:16px; padding:13px; font-size:16px; font-weight:800; cursor:pointer; color:#fff; box-shadow:var(--shadow); transition:transform .1s;}
   .btn:active{transform:scale(.97);}
-  .btn.repeat{background:var(--sky);} .btn.next{background:var(--grape);}
+  .btn.repeat{background:var(--sky);} .btn.next{background:var(--grape);} .btn.go{background:var(--leaf);}
 
-  /* confetti */
+  /* buddy */
+  .buddy{font-size:clamp(120px,38vw,180px); line-height:1.1; user-select:none; cursor:pointer; display:inline-block; transition:transform .15s; filter:drop-shadow(0 8px 0 rgba(34,49,92,.10));}
+  .buddy.listening{animation:lean .8s ease-in-out infinite;}
+  .buddy.talking{animation:jabber .22s ease-in-out infinite;}
+  .buddy.happy{animation:bounce .5s ease;}
+  @keyframes lean{0%,100%{transform:rotate(-4deg);} 50%{transform:rotate(4deg);}}
+  @keyframes jabber{0%,100%{transform:scaleY(1);} 50%{transform:scaleY(.88) scaleX(1.05);}}
+  @keyframes bounce{0%,100%{transform:translateY(0);} 40%{transform:translateY(-24px);} 70%{transform:translateY(0) scaleY(.92);}}
+  .speech{min-height:24px; font-weight:800; color:var(--ink-soft); font-size:16px; margin:6px 0;}
+  .talkbtn{width:100%; border:none; border-radius:20px; padding:17px; font-size:21px; font-weight:800; font-family:"Baloo 2"; color:#fff; background:var(--berry); box-shadow:0 8px 0 #d84b5b; cursor:pointer; transition:transform .1s; margin-top:10px;}
+  .talkbtn:active{transform:translateY(4px); box-shadow:0 4px 0 #d84b5b;}
+  .talkbtn.rec{background:var(--leaf); box-shadow:0 8px 0 #1e9457; animation:pulse 1s infinite;}
+  .minirow{display:flex; gap:10px; margin-top:12px;}
+  .mini{flex:1; border:none; border-radius:16px; padding:12px; font-size:15px; font-weight:800; font-family:"Baloo 2"; cursor:pointer; color:#fff; box-shadow:var(--shadow);}
+  .mini.tickle{background:var(--sun);} .mini.hello{background:var(--sky);} .mini.sing{background:var(--grape);}
+
+  /* end + confetti */
   .cf{position:absolute; top:-10px; font-size:22px; animation:fall 1.4s ease-in forwards; pointer-events:none;}
   @keyframes fall{to{transform:translateY(420px) rotate(360deg); opacity:0;}}
-
-  /* end screen */
-  .trophy{font-size:96px; margin:10px 0;}
-  .score-big{font-size:26px; font-weight:800; margin:4px 0 16px;}
+  .trophy{font-size:90px; margin:8px 0;}
+  .score-big{font-size:24px; font-weight:800; margin:4px 0 6px; font-family:"Baloo 2";}
+  .total-line{font-weight:800; color:var(--sun); font-size:17px; margin-bottom:12px;}
   @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
 </style>
 </head>
 <body>
-<h1>Guess It<span class="dot">!</span></h1>
-<p class="tag">Look 👀 · Say it out loud 🎤 · Learn 🌟</p>
+<h1>Chinnu<span class="dot">!</span> Learn &amp; Play</h1>
+<p class="tag">Look 👀 · Talk 🎤 · Learn 🌟</p>
 
-<!-- ============ MENU ============ -->
-<section class="screen on" id="menu">
-  <div class="agelabel">How old are you?</div>
-  <div class="agebar" id="agebar">
-    <button data-age="0" class="sel">4–6</button>
-    <button data-age="1">7–9</button>
-    <button data-age="2">10–12</button>
+<!-- ============ SETUP ============ -->
+<section class="screen" id="setup">
+  <div class="stage">
+    <div class="bigmoji">🐱</div>
+    <p class="question">Hi! I'm Chinnu! What's your name?</p>
+    <input class="namein" id="nameInput" maxlength="20" placeholder="Type your name…">
+    <div class="lbl">How old are you?</div>
+    <div class="agebar" id="setupAges">
+      <button data-age="0" class="sel">4–6</button>
+      <button data-age="1">7–9</button>
+      <button data-age="2">10–12</button>
+    </div>
+    <button class="btn go" style="width:100%" id="setupGo">Let's Play! 🎉</button>
+  </div>
+</section>
+
+<!-- ============ HOME ============ -->
+<section class="screen" id="homeScr">
+  <div class="stage" style="padding-top:20px;">
+    <p class="hello" id="helloLine">Hi!</p>
+    <div class="statrow">
+      <div class="stat"><b id="statStars">⭐ 0</b><span>Total stars</span></div>
+      <div class="stat"><b id="statGames">0</b><span>Games played</span></div>
+      <div class="stat"><b id="statBest">—</b><span>Favourite game</span></div>
+    </div>
+    <div class="acts">
+      <button class="act" data-go="cats"><span class="ic">🦁</span><span>Guess It!<small>Animals, birds, fruits &amp; veggies</small></span></button>
+      <button class="act" data-go="tom"><span class="ic">🐱</span><span>Talking Buddy<small>Chinnu repeats you in a funny voice!</small></span></button>
+      <button class="act" data-go="quiz"><span class="ic">🧠</span><span>GK Quiz<small>Fun easy questions</small></span></button>
+    </div>
+    <button class="editbtn" id="editProfile">Change name or age</button>
+  </div>
+</section>
+
+<!-- ============ GUESS-IT: CATEGORIES ============ -->
+<section class="screen" id="cats">
+  <div class="topbar">
+    <button class="home" data-go="homeScr">🏠</button>
+    <div class="pill">Guess It! — pick one</div>
+    <div class="pill stars" id="catStars">⭐ 0</div>
   </div>
   <div class="cats">
     <button class="cat" data-cat="animals"><span>🦁</span>Animals</button>
@@ -128,19 +164,19 @@
   </div>
 </section>
 
-<!-- ============ GAME ============ -->
+<!-- ============ GUESS-IT: GAME ============ -->
 <section class="screen" id="game">
   <div class="topbar">
-    <button class="home" id="homeBtn" title="Back to menu">🏠</button>
+    <button class="home" data-go="homeScr">🏠</button>
     <div class="pill" id="progress">1 / 8</div>
-    <div class="pill stars" id="stars">⭐ 0</div>
+    <div class="pill stars" id="roundStars">⭐ 0</div>
   </div>
   <div class="stage">
-    <p class="question" id="question">What animal is this?</p>
+    <p class="qsub" id="question">What animal is this?</p>
     <div class="bigmoji" id="bigmoji">🐘</div>
     <div class="heard" id="heard"></div>
     <div class="fb" id="fb"></div>
-    <div class="micwrap" id="micwrap">
+    <div class="micwrap">
       <button class="mic" id="micBtn">🎤</button>
       <div class="miclabel" id="micLabel">Tap and say the answer!</div>
     </div>
@@ -152,104 +188,147 @@
   </div>
 </section>
 
-<!-- ============ END ============ -->
+<!-- ============ TALKING BUDDY ============ -->
+<section class="screen" id="tom">
+  <div class="topbar">
+    <button class="home" data-go="homeScr">🏠</button>
+    <div class="pill">Talking Buddy</div>
+    <div class="pill stars" id="tomStars">⭐ 0</div>
+  </div>
+  <div class="stage">
+    <div class="buddy" id="buddy">🐱</div>
+    <div class="speech" id="buddySpeech">Tap the big button and talk to me!</div>
+    <button class="talkbtn" id="talkBtn">🎤 Tap to Talk!</button>
+    <div class="minirow">
+      <button class="mini hello" id="helloBtn">👋 Hello</button>
+      <button class="mini tickle" id="tickleBtn">🪶 Tickle</button>
+      <button class="mini sing" id="singBtn">🎵 Sing</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GK QUIZ ============ -->
+<section class="screen" id="quiz">
+  <div class="topbar">
+    <button class="home" data-go="homeScr">🏠</button>
+    <div class="pill" id="qProgress">1 / 8</div>
+    <div class="pill stars" id="qRoundStars">⭐ 0</div>
+  </div>
+  <div class="stage">
+    <p class="question" id="qText"></p>
+    <div class="opts pics" id="qOpts"></div>
+    <div class="micwrap">
+      <button class="mic" id="qMic" style="width:62px;height:62px;font-size:28px;">🎤</button>
+      <div class="heard" id="qHeard"></div>
+      <div class="miclabel" id="qMicLabel">or say your answer!</div>
+    </div>
+    <div class="fb" id="qFb"></div>
+    <div class="rowbtns">
+      <button class="btn repeat" id="qRepeat">🔊 Hear again</button>
+      <button class="btn next" id="qSkip">Skip ➜</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ END (shared) ============ -->
 <section class="screen" id="end">
   <div class="stage">
     <div class="trophy" id="trophyEmoji">🏆</div>
-    <div class="score-big" id="finalScore">You got 8 stars!</div>
-    <div class="fb good" id="finalMsg">Amazing job!</div>
+    <div class="score-big" id="finalScore"></div>
+    <div class="fb good" id="finalMsg"></div>
+    <div class="total-line" id="totalLine"></div>
     <div class="rowbtns">
       <button class="btn repeat" id="againBtn">🔁 Play again</button>
-      <button class="btn next" id="menuBtn">🏠 Menu</button>
+      <button class="btn next" data-go="homeScr">🏠 Home</button>
     </div>
   </div>
 </section>
 
 <script>
-/* ================= ITEM BANK =================
-   difficulty: 0 = 4–6yrs, 1 = 7–9, 2 = 10–12 (each age includes lower tiers) */
-const BANK = {
-  animals: [
-    {n:"dog",e:"🐶",d:0,syn:["doggy","puppy"]},
-    {n:"cat",e:"🐱",d:0,syn:["kitty","kitten"]},
-    {n:"cow",e:"🐮",d:0,syn:[]},
-    {n:"elephant",e:"🐘",d:0,syn:["hathi"]},
-    {n:"lion",e:"🦁",d:0,syn:["sher"]},
-    {n:"monkey",e:"🐵",d:0,syn:["bandar"]},
-    {n:"tiger",e:"🐯",d:1,syn:["bagh"]},
-    {n:"horse",e:"🐴",d:1,syn:["ghoda"]},
-    {n:"sheep",e:"🐑",d:1,syn:["lamb"]},
-    {n:"rabbit",e:"🐰",d:1,syn:["bunny","hare","khargosh"]},
-    {n:"bear",e:"🐻",d:1,syn:["bhalu"]},
-    {n:"pig",e:"🐷",d:1,syn:["piglet"]},
-    {n:"giraffe",e:"🦒",d:1,syn:[]},
-    {n:"zebra",e:"🦓",d:2,syn:[]},
-    {n:"camel",e:"🐪",d:2,syn:["oont"]},
-    {n:"kangaroo",e:"🦘",d:2,syn:[]},
-    {n:"rhinoceros",e:"🦏",d:2,syn:["rhino","genda"]},
-    {n:"crocodile",e:"🐊",d:2,syn:["alligator","magar"]},
-    {n:"fox",e:"🦊",d:2,syn:[]},
-    {n:"wolf",e:"🐺",d:2,syn:[]},
-  ],
-  birds: [
-    {n:"hen",e:"🐔",d:0,syn:["chicken","murgi"]},
-    {n:"duck",e:"🦆",d:0,syn:["batak"]},
-    {n:"parrot",e:"🦜",d:0,syn:["tota"]},
-    {n:"chick",e:"🐤",d:0,syn:["baby chicken","chicken","chuza"]},
-    {n:"owl",e:"🦉",d:1,syn:["ullu"]},
-    {n:"peacock",e:"🦚",d:1,syn:["mor","peahen"]},
-    {n:"penguin",e:"🐧",d:1,syn:[]},
-    {n:"eagle",e:"🦅",d:1,syn:["baaz","hawk"]},
-    {n:"swan",e:"🦢",d:2,syn:["hans"]},
-    {n:"flamingo",e:"🦩",d:2,syn:[]},
-    {n:"turkey",e:"🦃",d:2,syn:[]},
-    {n:"dove",e:"🕊️",d:2,syn:["pigeon","kabutar"]},
-  ],
-  fruits: [
-    {n:"apple",e:"🍎",d:0,syn:["seb"]},
-    {n:"banana",e:"🍌",d:0,syn:["kela"]},
-    {n:"mango",e:"🥭",d:0,syn:["aam"]},
-    {n:"orange",e:"🍊",d:0,syn:["santra","tangerine"]},
-    {n:"grapes",e:"🍇",d:0,syn:["grape","angoor"]},
-    {n:"watermelon",e:"🍉",d:1,syn:["tarbooz"]},
-    {n:"strawberry",e:"🍓",d:1,syn:["strawberries"]},
-    {n:"pineapple",e:"🍍",d:1,syn:["ananas"]},
-    {n:"cherry",e:"🍒",d:1,syn:["cherries"]},
-    {n:"lemon",e:"🍋",d:1,syn:["nimbu","lime"]},
-    {n:"coconut",e:"🥥",d:2,syn:["nariyal"]},
-    {n:"peach",e:"🍑",d:2,syn:["aadu"]},
-    {n:"pear",e:"🍐",d:2,syn:["nashpati"]},
-    {n:"kiwi",e:"🥝",d:2,syn:["kiwifruit"]},
-    {n:"blueberry",e:"🫐",d:2,syn:["blueberries"]},
-  ],
-  veggies: [
-    {n:"carrot",e:"🥕",d:0,syn:["gajar"]},
-    {n:"tomato",e:"🍅",d:0,syn:["tamatar"]},
-    {n:"potato",e:"🥔",d:0,syn:["aloo"]},
-    {n:"corn",e:"🌽",d:0,syn:["maize","bhutta","sweet corn"]},
-    {n:"onion",e:"🧅",d:1,syn:["pyaz"]},
-    {n:"cucumber",e:"🥒",d:1,syn:["kheera"]},
-    {n:"brinjal",e:"🍆",d:1,syn:["eggplant","aubergine","baingan"]},
-    {n:"chilli",e:"🌶️",d:1,syn:["chili","pepper","mirchi","chilli pepper"]},
-    {n:"broccoli",e:"🥦",d:2,syn:[]},
-    {n:"mushroom",e:"🍄",d:2,syn:["mushrooms"]},
-    {n:"garlic",e:"🧄",d:2,syn:["lehsun"]},
-    {n:"peas",e:"🫛",d:2,syn:["pea","matar","green peas"]},
-  ]
-};
-const CAT_WORD = {animals:"animal", birds:"bird", fruits:"fruit", veggies:"vegetable"};
-const ROUND_LEN = 8;
-const PRAISE = ["Great job!","Super!","You got it!","Wonderful!","Wow, correct!","Fantastic!"];
-const TRY_AGAIN = ["Good try! Listen and try once more.","Almost! Try again.","Nice try! One more time."];
-
-/* ================= STATE ================= */
-let age = 0, cat = "animals", items = [], idx = 0, stars = 0, attempts = 0;
-let listening = false, rec = null;
-
-/* ================= HELPERS ================= */
+/* =========================================================
+   SHARED ENGINE — profile, speech in/out, matching, confetti
+   ========================================================= */
 const $ = id => document.getElementById(id);
-function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function norm(s){return s.toLowerCase().replace(/[^a-z\s]/g,"").replace(/\s+/g," ").trim();}
+const ROUND_LEN = 8;
+const PRAISE = ["Great job!","Super!","You got it!","Wonderful!","Correct!","Fantastic!"];
+const TRY_AGAIN = ["Good try! Try once more.","Almost! Think again.","Nice try! One more time."];
+
+/* ---------- profile (persists via localStorage, memory fallback) ---------- */
+let memStore = {};
+function storeGet(k){ try{ return localStorage.getItem(k); }catch(e){ return memStore[k] ?? null; } }
+function storeSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){ memStore[k]=v; } }
+
+const DEFAULT_PROFILE = {name:"", age:0, stars:0, games:{guessit:{plays:0,stars:0}, buddy:{plays:0,stars:0}, gk:{plays:0,stars:0}}};
+let profile = loadProfile();
+function loadProfile(){
+  try{ const p = JSON.parse(storeGet("chinnu_profile")); if(p && p.games) return p; }catch(e){}
+  return JSON.parse(JSON.stringify(DEFAULT_PROFILE));
+}
+function saveProfile(){ storeSet("chinnu_profile", JSON.stringify(profile)); }
+function recordRound(gameKey, starsEarned){
+  profile.games[gameKey].plays++;
+  profile.games[gameKey].stars += starsEarned;
+  profile.stars += starsEarned;
+  saveProfile();
+}
+
+/* ---------- navigation ---------- */
+function show(id){
+  speechSynthesis.cancel();
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on"));
+  $(id).classList.add("on");
+  if(id==="homeScr") renderHome();
+  document.querySelectorAll(".pill.stars").forEach(p=>{
+    if(["catStars","tomStars"].includes(p.id)) p.textContent = "⭐ " + profile.stars;
+  });
+}
+document.querySelectorAll("[data-go]").forEach(b=> b.onclick = ()=>{
+  const to = b.dataset.go;
+  if(to==="quiz") startQuiz(); else show(to);
+});
+
+/* ---------- speech out ---------- */
+let voice = null;
+function pickVoice(){
+  const vs = speechSynthesis.getVoices();
+  voice = vs.find(v=>/en[-_]IN/i.test(v.lang)) || vs.find(v=>/^en/i.test(v.lang)) || vs[0] || null;
+}
+speechSynthesis.onvoiceschanged = pickVoice; pickVoice();
+function say(text, opts={}, cb){
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    if(voice) u.voice = voice;
+    u.rate = opts.rate ?? 0.92; u.pitch = opts.pitch ?? 1.1;
+    if(cb) u.onend = cb;
+    speechSynthesis.speak(u);
+  }catch(e){ if(cb) cb(); }
+}
+
+/* ---------- speech in (one recognizer, routed to active game) ---------- */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let rec = null, listening = false, onFinal = null, onInterim = null, onStop = null;
+if(SR){
+  rec = new SR(); rec.lang = "en-IN"; rec.interimResults = true; rec.maxAlternatives = 4;
+  rec.onresult = e=>{
+    let txt=""; for(const r of e.results) txt += r[0].transcript + " ";
+    if(onInterim) onInterim(txt.trim());
+    const last = e.results[e.results.length-1];
+    if(last.isFinal && onFinal) onFinal([...last].map(a=>a.transcript).join(" "));
+  };
+  rec.onend = ()=>{ listening=false; if(onStop) onStop(); };
+  rec.onerror = ()=>{ listening=false; if(onStop) onStop(true); };
+}
+function listen(handlers){
+  if(!rec) { if(handlers.onStop) handlers.onStop(true); return; }
+  if(listening){ rec.stop(); return; }
+  onInterim = handlers.onInterim; onFinal = handlers.onFinal; onStop = handlers.onStop;
+  listening = true;
+  try{ rec.start(); }catch(e){ listening=false; if(onStop) onStop(true); }
+}
+
+/* ---------- fuzzy matching ---------- */
+function norm(s){return s.toLowerCase().replace(/[^a-z0-9\s]/g,"").replace(/\s+/g," ").trim();}
 function lev(a,b){
   const m=[...Array(a.length+1)].map((_,i)=>[i,...Array(b.length).fill(0)]);
   for(let j=0;j<=b.length;j++)m[0][j]=j;
@@ -257,182 +336,360 @@ function lev(a,b){
     m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]===b[j-1]?0:1));
   return m[a.length][b.length];
 }
-function isMatch(heard, item){
-  const words = [item.n, ...item.syn].map(norm);
-  const h = norm(heard);
+function fuzzyMatch(heard, answer, syn){
+  const words=[answer,...(syn||[])].map(norm), h=norm(heard);
   if(!h) return false;
   for(const w of words){
     if(h===w || h.includes(w)) return true;
-    const tol = w.length>=6 ? 2 : w.length>=4 ? 1 : 0;
-    for(const token of h.split(" ")) if(lev(token,w)<=tol) return true;
+    const tol = w.length>=6?2 : w.length>=4?1 : 0;
+    for(const t of h.split(" ")) if(lev(t,w)<=tol) return true;
   }
   return false;
 }
 
-/* ================= SPEECH OUT ================= */
-let voice = null;
-function pickVoice(){
-  const vs = speechSynthesis.getVoices();
-  voice = vs.find(v=>/en[-_]IN/i.test(v.lang)) || vs.find(v=>/^en/i.test(v.lang)) || vs[0] || null;
-}
-speechSynthesis.onvoiceschanged = pickVoice; pickVoice();
-function say(text, cb){
-  try{
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    if(voice) u.voice = voice;
-    u.rate = 0.92; u.pitch = 1.1;
-    if(cb) u.onend = cb;
-    speechSynthesis.speak(u);
-  }catch(e){ if(cb) cb(); }
+/* ---------- confetti ---------- */
+function confetti(){
+  const stage=document.querySelector(".screen.on .stage");
+  if(!stage) return;
+  const bits=["🎉","⭐","🎊","✨","🌟"];
+  for(let i=0;i<12;i++){
+    const s=document.createElement("span");
+    s.className="cf"; s.textContent=bits[Math.floor(Math.random()*bits.length)];
+    s.style.left=(5+Math.random()*90)+"%";
+    s.style.animationDelay=(Math.random()*0.4)+"s";
+    stage.appendChild(s);
+    setTimeout(()=>s.remove(),2000);
+  }
 }
 
-/* ================= SPEECH IN ================= */
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-if(SR){
-  rec = new SR();
-  rec.lang = "en-IN"; rec.interimResults = true; rec.maxAlternatives = 4;
-  rec.onresult = e => {
-    let txt = "";
-    for(const r of e.results) txt += r[0].transcript + " ";
-    $("heard").textContent = "I heard: “" + txt.trim() + "”";
-    const last = e.results[e.results.length-1];
-    if(last.isFinal){
-      const alts = [...last].map(a=>a.transcript).join(" ");
-      checkAnswer(alts);
-    }
-  };
-  rec.onend = () => setListening(false);
-  rec.onerror = () => { setListening(false); showMicUnavailable(); };
-}else{ showMicUnavailable(); }
-
-function setListening(on){
-  listening = on;
-  $("micBtn").classList.toggle("listening", on);
-  $("micLabel").textContent = on ? "Listening… speak now!" : "Tap and say the answer!";
+/* ---------- shared end screen ---------- */
+let replayFn = null;
+function endRound(gameKey, earned, total, replay){
+  recordRound(gameKey, earned);
+  replayFn = replay;
+  show("end");
+  const pct = total ? earned/total : 0;
+  $("trophyEmoji").textContent = pct>=0.8?"🏆":pct>=0.5?"🌟":"💪";
+  $("finalScore").textContent = "You got " + earned + " out of " + total + " stars!";
+  const msg = pct>=0.8?"Amazing! You're a superstar!":pct>=0.5?"Great work! Keep practicing!":"Good effort! Let's play again!";
+  $("finalMsg").textContent = msg;
+  $("totalLine").textContent = "⭐ Total stars: " + profile.stars;
+  const nm = profile.name ? (profile.name + ", you") : "You";
+  say(nm + " got " + earned + " stars! " + msg);
 }
-function showMicUnavailable(){
-  $("micLabel").textContent = "Mic not available here — tap an answer below!";
-}
+$("againBtn").onclick = ()=>{ if(replayFn) replayFn(); };
 
-/* ================= GAME FLOW ================= */
-document.querySelectorAll("#agebar button").forEach(b=>{
-  b.onclick = ()=>{ document.querySelectorAll("#agebar button").forEach(x=>x.classList.remove("sel")); b.classList.add("sel"); age=+b.dataset.age; };
+/* =========================================================
+   SETUP + HOME
+   ========================================================= */
+document.querySelectorAll("#setupAges button").forEach(b=>{
+  b.onclick=()=>{ document.querySelectorAll("#setupAges button").forEach(x=>x.classList.remove("sel")); b.classList.add("sel"); };
 });
-document.querySelectorAll(".cat").forEach(b=> b.onclick = ()=> startRound(b.dataset.cat));
-$("homeBtn").onclick = $("menuBtn").onclick = ()=>{ speechSynthesis.cancel(); show("menu"); };
-$("againBtn").onclick = ()=> startRound(cat);
-$("repeatBtn").onclick = ()=> askQuestion(false);
-$("nextBtn").onclick = ()=> revealThenNext(true);
-$("micBtn").onclick = ()=>{
-  if(!rec) return;
-  if(listening){ rec.stop(); return; }
-  $("heard").textContent = ""; setListening(true);
-  try{ rec.start(); }catch(e){ setListening(false); }
+$("setupGo").onclick = ()=>{
+  const nm = $("nameInput").value.trim();
+  profile.name = nm.slice(0,20);
+  profile.age = +document.querySelector("#setupAges button.sel").dataset.age;
+  saveProfile();
+  const greet = profile.name ? "Hello " + profile.name + "! Let's play!" : "Hello my friend! Let's play!";
+  say(greet, {pitch:1.5, rate:1.0});
+  show("homeScr");
 };
+$("editProfile").onclick = ()=>{
+  $("nameInput").value = profile.name;
+  document.querySelectorAll("#setupAges button").forEach(x=>x.classList.toggle("sel", +x.dataset.age===profile.age));
+  show("setup");
+};
+function renderHome(){
+  $("helloLine").textContent = profile.name ? "Hi " + profile.name + "! 👋" : "Hi friend! 👋";
+  $("statStars").textContent = "⭐ " + profile.stars;
+  const plays = Object.values(profile.games).reduce((s,g)=>s+g.plays,0);
+  $("statGames").textContent = plays;
+  const names = {guessit:"Guess It", buddy:"Buddy", gk:"GK Quiz"};
+  let best="—", bestPlays=0;
+  for(const [k,g] of Object.entries(profile.games)) if(g.plays>bestPlays){ best=names[k]; bestPlays=g.plays; }
+  $("statBest").textContent = best;
+}
 
-function show(id){ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on")); $(id).classList.add("on"); }
+/* first screen: setup on first visit, home afterwards */
+(profile.name || profile.stars>0) ? show("homeScr") : show("setup");
 
-function startRound(chosen){
-  cat = chosen;
-  let pool = chosen==="mix"
-    ? Object.values(BANK).flat()
-    : BANK[chosen];
-  pool = pool.filter(it=>it.d<=age);
-  items = shuffle([...pool]).slice(0, ROUND_LEN).map(it=>{
+/* =========================================================
+   GAME 1 — GUESS IT!
+   ========================================================= */
+const BANK = {
+  animals: [
+    {n:"dog",e:"🐶",d:0,syn:["doggy","puppy"]},{n:"cat",e:"🐱",d:0,syn:["kitty","kitten"]},
+    {n:"cow",e:"🐮",d:0,syn:["gai"]},{n:"elephant",e:"🐘",d:0,syn:["hathi"]},
+    {n:"lion",e:"🦁",d:0,syn:["sher"]},{n:"monkey",e:"🐵",d:0,syn:["bandar"]},
+    {n:"tiger",e:"🐯",d:1,syn:["bagh"]},{n:"horse",e:"🐴",d:1,syn:["ghoda"]},
+    {n:"sheep",e:"🐑",d:1,syn:["lamb"]},{n:"rabbit",e:"🐰",d:1,syn:["bunny","hare","khargosh"]},
+    {n:"bear",e:"🐻",d:1,syn:["bhalu"]},{n:"pig",e:"🐷",d:1,syn:["piglet"]},
+    {n:"giraffe",e:"🦒",d:1,syn:[]},{n:"zebra",e:"🦓",d:2,syn:[]},
+    {n:"camel",e:"🐪",d:2,syn:["oont"]},{n:"kangaroo",e:"🦘",d:2,syn:[]},
+    {n:"rhinoceros",e:"🦏",d:2,syn:["rhino","genda"]},{n:"crocodile",e:"🐊",d:2,syn:["alligator","magar"]},
+    {n:"fox",e:"🦊",d:2,syn:[]},{n:"wolf",e:"🐺",d:2,syn:[]},
+  ],
+  birds: [
+    {n:"hen",e:"🐔",d:0,syn:["chicken","murgi"]},{n:"duck",e:"🦆",d:0,syn:["batak"]},
+    {n:"parrot",e:"🦜",d:0,syn:["tota"]},{n:"chick",e:"🐤",d:0,syn:["baby chicken","chicken","chuza"]},
+    {n:"owl",e:"🦉",d:1,syn:["ullu"]},{n:"peacock",e:"🦚",d:1,syn:["mor","peahen"]},
+    {n:"penguin",e:"🐧",d:1,syn:[]},{n:"eagle",e:"🦅",d:1,syn:["baaz","hawk"]},
+    {n:"swan",e:"🦢",d:2,syn:["hans"]},{n:"flamingo",e:"🦩",d:2,syn:[]},
+    {n:"turkey",e:"🦃",d:2,syn:[]},{n:"dove",e:"🕊️",d:2,syn:["pigeon","kabutar"]},
+  ],
+  fruits: [
+    {n:"apple",e:"🍎",d:0,syn:["seb"]},{n:"banana",e:"🍌",d:0,syn:["kela"]},
+    {n:"mango",e:"🥭",d:0,syn:["aam"]},{n:"orange",e:"🍊",d:0,syn:["santra","tangerine"]},
+    {n:"grapes",e:"🍇",d:0,syn:["grape","angoor"]},{n:"watermelon",e:"🍉",d:1,syn:["tarbooz"]},
+    {n:"strawberry",e:"🍓",d:1,syn:["strawberries"]},{n:"pineapple",e:"🍍",d:1,syn:["ananas"]},
+    {n:"cherry",e:"🍒",d:1,syn:["cherries"]},{n:"lemon",e:"🍋",d:1,syn:["nimbu","lime"]},
+    {n:"coconut",e:"🥥",d:2,syn:["nariyal"]},{n:"peach",e:"🍑",d:2,syn:["aadu"]},
+    {n:"pear",e:"🍐",d:2,syn:["nashpati"]},{n:"kiwi",e:"🥝",d:2,syn:["kiwifruit"]},
+    {n:"blueberry",e:"🫐",d:2,syn:["blueberries"]},
+  ],
+  veggies: [
+    {n:"carrot",e:"🥕",d:0,syn:["gajar"]},{n:"tomato",e:"🍅",d:0,syn:["tamatar"]},
+    {n:"potato",e:"🥔",d:0,syn:["aloo"]},{n:"corn",e:"🌽",d:0,syn:["maize","bhutta","sweet corn"]},
+    {n:"onion",e:"🧅",d:1,syn:["pyaz"]},{n:"cucumber",e:"🥒",d:1,syn:["kheera"]},
+    {n:"brinjal",e:"🍆",d:1,syn:["eggplant","aubergine","baingan"]},{n:"chilli",e:"🌶️",d:1,syn:["chili","pepper","mirchi","chilli pepper"]},
+    {n:"broccoli",e:"🥦",d:2,syn:[]},{n:"mushroom",e:"🍄",d:2,syn:["mushrooms"]},
+    {n:"garlic",e:"🧄",d:2,syn:["lehsun"]},{n:"peas",e:"🫛",d:2,syn:["pea","matar","green peas"]},
+  ]
+};
+const CAT_WORD = {animals:"animal", birds:"bird", fruits:"fruit", veggies:"vegetable"};
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+let gCat="animals", gItems=[], gIdx=0, gStars=0, gAttempts=0;
+document.querySelectorAll(".cat").forEach(b=> b.onclick = ()=> startGuess(b.dataset.cat));
+
+function startGuess(chosen){
+  gCat = chosen;
+  let pool = chosen==="mix" ? Object.values(BANK).flat() : BANK[chosen];
+  pool = pool.filter(it=>it.d<=profile.age);
+  gItems = shuffle([...pool]).slice(0, ROUND_LEN).map(it=>{
     const c = chosen==="mix" ? Object.keys(BANK).find(k=>BANK[k].includes(it)) : chosen;
     return {...it, cat:c};
   });
-  idx = 0; stars = 0;
+  gIdx=0; gStars=0;
   show("game");
-  nextItem(true);
+  gNext();
 }
-
-function nextItem(first){
-  if(idx >= items.length){ return endRound(); }
-  attempts = 0;
-  const it = items[idx];
-  $("progress").textContent = (idx+1) + " / " + items.length;
-  $("stars").textContent = "⭐ " + stars;
-  $("bigmoji").textContent = it.e;
+function gNext(){
+  if(gIdx>=gItems.length) return endRound("guessit", gStars, gItems.length, ()=>startGuess(gCat));
+  gAttempts=0;
+  const it=gItems[gIdx];
+  $("progress").textContent=(gIdx+1)+" / "+gItems.length;
+  $("roundStars").textContent="⭐ "+gStars;
+  $("bigmoji").textContent=it.e;
   $("bigmoji").style.animation="none"; void $("bigmoji").offsetWidth; $("bigmoji").style.animation="";
-  $("question").textContent = "What " + CAT_WORD[it.cat] + " is this?";
-  $("fb").textContent = ""; $("fb").className="fb"; $("heard").textContent="";
-  buildOptions(it);
-  askQuestion(true);
-}
-
-function askQuestion(){ const it = items[idx]; say("What " + CAT_WORD[it.cat] + " is this?"); }
-
-function buildOptions(it){
-  const pool = BANK[it.cat].filter(x=>x.n!==it.n);
-  const wrong = shuffle([...pool]).slice(0,2);
-  const opts = shuffle([it, ...wrong]);
-  $("opts").innerHTML = "";
+  $("question").textContent="What "+CAT_WORD[it.cat]+" is this?";
+  $("fb").textContent=""; $("fb").className="fb"; $("heard").textContent="";
+  const pool=BANK[it.cat].filter(x=>x.n!==it.n);
+  const opts=shuffle([it, ...shuffle([...pool]).slice(0,2)]);
+  $("opts").innerHTML="";
   opts.forEach(o=>{
-    const b = document.createElement("button");
-    b.className="opt"; b.textContent = o.n[0].toUpperCase()+o.n.slice(1);
-    b.onclick = ()=> checkAnswer(o.n, b);
+    const b=document.createElement("button");
+    b.className="opt"; b.textContent=o.n[0].toUpperCase()+o.n.slice(1);
+    b.onclick=()=>gCheck(o.n,b);
     $("opts").appendChild(b);
   });
+  say("What "+CAT_WORD[it.cat]+" is this?");
 }
+$("repeatBtn").onclick=()=>{ const it=gItems[gIdx]; say("What "+CAT_WORD[it.cat]+" is this?"); };
+$("nextBtn").onclick=()=> gReveal(true);
+$("micBtn").onclick=()=> listen({
+  onInterim: t=> $("heard").textContent='I heard: "'+t+'"',
+  onFinal: t=> gCheck(t),
+  onStop: err=>{ $("micBtn").classList.remove("listening"); $("micLabel").textContent = err ? "Mic not working — tap an answer!" : "Tap and say the answer!"; }
+});
+$("micBtn").addEventListener("click", ()=>{ if(listening){ $("micBtn").classList.add("listening"); $("micLabel").textContent="Listening… speak now!"; }});
 
-function checkAnswer(heard, btn){
-  const it = items[idx];
-  if(isMatch(heard, it)){
+function gCheck(heard, btn){
+  const it=gItems[gIdx];
+  if(fuzzyMatch(heard, it.n, it.syn)){
     if(btn) btn.classList.add("right");
-    stars++; $("stars").textContent = "⭐ " + stars;
-    const p = PRAISE[Math.floor(Math.random()*PRAISE.length)];
-    $("fb").textContent = "🎉 " + p + " It's a " + it.n + "!";
-    $("fb").className = "fb good";
+    gStars++; $("roundStars").textContent="⭐ "+gStars;
+    const p=PRAISE[Math.floor(Math.random()*PRAISE.length)];
+    $("fb").textContent="🎉 "+p+" It's a "+it.n+"!"; $("fb").className="fb good";
     confetti();
-    say(p + " It is a " + it.n + "!", ()=> setTimeout(advance, 400));
+    say(p+" It is a "+it.n+"!", {}, ()=>setTimeout(gAdvance,300));
   }else{
-    attempts++;
-    if(btn) { btn.classList.add("wrong"); setTimeout(()=>btn.classList.remove("wrong"), 700); }
-    if(attempts < 2){
-      const t = TRY_AGAIN[Math.floor(Math.random()*TRY_AGAIN.length)];
-      $("fb").textContent = "💛 " + t;
-      $("fb").className = "fb try";
+    gAttempts++;
+    if(btn){ btn.classList.add("wrong"); setTimeout(()=>btn.classList.remove("wrong"),700); }
+    if(gAttempts<2){
+      const t=TRY_AGAIN[Math.floor(Math.random()*TRY_AGAIN.length)];
+      $("fb").textContent="💛 "+t; $("fb").className="fb try";
       say(t);
-    }else{
-      revealThenNext(false);
-    }
+    }else gReveal(false);
   }
 }
-
-function revealThenNext(skipped){
-  const it = items[idx];
-  $("fb").textContent = "It's a " + it.n + "! Can you say “" + it.n + "”?";
-  $("fb").className = "fb ans";
-  say((skipped ? "" : "Good try! ") + "This is a " + it.n + ". Can you say " + it.n + "?",
-      ()=> setTimeout(advance, 1200));
+function gReveal(skipped){
+  const it=gItems[gIdx];
+  $("fb").textContent='It\'s a '+it.n+'! Can you say "'+it.n+'"?';
+  $("fb").className="fb ans";
+  say((skipped?"":"Good try! ")+"This is a "+it.n+". Can you say "+it.n+"?", {}, ()=>setTimeout(gAdvance,900));
 }
+function gAdvance(){ gIdx++; gNext(); }
 
-function advance(){ idx++; nextItem(); }
-
-function endRound(){
-  show("end");
-  const pct = stars/items.length;
-  $("trophyEmoji").textContent = pct>=0.8 ? "🏆" : pct>=0.5 ? "🌟" : "💪";
-  $("finalScore").textContent = "You got " + stars + " out of " + items.length + " stars!";
-  const msg = pct>=0.8 ? "Amazing! You're a superstar!" : pct>=0.5 ? "Great work! Keep practicing!" : "Good effort! Let's play again!";
-  $("finalMsg").textContent = msg;
-  say("You got " + stars + " stars! " + msg);
+/* =========================================================
+   GAME 2 — TALKING BUDDY (earns 1 star per chat, max 5/visit)
+   ========================================================= */
+let audioCtx=null, mediaStream=null, recorder=null, chunks=[], recording=false, buddyStarsThisVisit=0;
+function buddyState(cls){ $("buddy").className = "buddy" + (cls?" "+cls:""); }
+async function getMic(){
+  if(mediaStream) return mediaStream;
+  mediaStream = await navigator.mediaDevices.getUserMedia({audio:true});
+  return mediaStream;
 }
-
-function confetti(){
-  const stage = document.querySelector("#game .stage");
-  const bits = ["🎉","⭐","🎊","✨","🌟"];
-  for(let i=0;i<12;i++){
-    const s = document.createElement("span");
-    s.className="cf"; s.textContent = bits[Math.floor(Math.random()*bits.length)];
-    s.style.left = (5+Math.random()*90)+"%";
-    s.style.animationDelay = (Math.random()*0.4)+"s";
-    stage.appendChild(s);
-    setTimeout(()=>s.remove(), 2000);
+$("talkBtn").onclick = async ()=>{
+  if(recording){ recorder.stop(); return; }
+  try{
+    const stream = await getMic();
+    chunks=[];
+    recorder = new MediaRecorder(stream);
+    recorder.ondataavailable = e=> chunks.push(e.data);
+    recorder.onstop = playBackFunny;
+    recorder.start();
+    recording=true;
+    $("talkBtn").textContent="🟢 I'm listening… Tap when done!";
+    $("talkBtn").classList.add("rec");
+    $("buddySpeech").textContent="Chinnu is listening… 👂";
+    buddyState("listening");
+  }catch(err){
+    $("buddySpeech").textContent="I can't hear 😿 — please allow the microphone!";
+  }
+};
+async function playBackFunny(){
+  recording=false;
+  $("talkBtn").textContent="🎤 Tap to Talk!";
+  $("talkBtn").classList.remove("rec");
+  const blob = new Blob(chunks, {type: recorder.mimeType || "audio/webm"});
+  if(blob.size<800){ buddyState(""); $("buddySpeech").textContent="I didn't hear anything — try again!"; return; }
+  try{
+    audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==="suspended") await audioCtx.resume();
+    const buf = await audioCtx.decodeAudioData(await blob.arrayBuffer());
+    const src = audioCtx.createBufferSource();
+    src.buffer=buf; src.playbackRate.value=1.6;
+    src.connect(audioCtx.destination);
+    buddyState("talking");
+    $("buddySpeech").textContent="Hee hee! Listen to me! 😸";
+    src.onended = ()=>{
+      buddyState("happy"); setTimeout(()=>buddyState(""),600);
+      if(buddyStarsThisVisit<5){
+        buddyStarsThisVisit++;
+        recordRound("buddy",1);
+        $("tomStars").textContent="⭐ "+profile.stars;
+        $("buddySpeech").textContent="⭐ You earned a star! Talk to me again!";
+        confetti();
+      }else{
+        $("buddySpeech").textContent="Talk to me again!";
+      }
+    };
+    src.start();
+  }catch(e){
+    buddyState("");
+    $("buddySpeech").textContent="Oops, something went wrong — try again!";
   }
 }
+$("buddy").onclick=()=>{ buddyState("happy"); setTimeout(()=>buddyState(""),600); say("Hee hee!",{pitch:1.8,rate:1.15}); };
+$("helloBtn").onclick=()=>{
+  buddyState("talking");
+  const nm = profile.name ? (" Hello "+profile.name+"!") : " Hello my friend!";
+  say("Meow!"+nm+" I am Chinnu the cat!",{pitch:1.7,rate:1.05},()=>buddyState(""));
+};
+$("tickleBtn").onclick=()=>{ buddyState("happy"); say("He he he he! That tickles! Stop it, stop it!",{pitch:1.9,rate:1.25},()=>buddyState("")); setTimeout(()=>buddyState(""),700); };
+$("singBtn").onclick=()=>{ buddyState("talking"); say("La la la la laaa! Twinkle twinkle little star, how I wonder what you are! Meow!",{pitch:1.8,rate:1.0},()=>buddyState("")); };
+
+/* =========================================================
+   GAME 3 — GK QUIZ
+   ========================================================= */
+const GK = [
+  {q:"What colour is the sky?", a:"blue", syn:["neela"], opts:[["Blue","🔵"],["Red","🔴"],["Green","🟢"]]},
+  {q:"What colour is a banana?", a:"yellow", syn:["peela"], opts:[["Yellow","🟡"],["Purple","🟣"],["Black","⚫"]]},
+  {q:"What colour is grass?", a:"green", syn:["hara"], opts:[["Green","🟢"],["Pink","🩷"],["Blue","🔵"]]},
+  {q:"What colour is a tomato?", a:"red", syn:["lal"], opts:[["Red","🔴"],["Blue","🔵"],["White","⚪"]]},
+  {q:"What colour is milk?", a:"white", syn:["safed"], opts:[["White","⚪"],["Green","🟢"],["Orange","🟠"]]},
+  {q:"Which animal says moo?", a:"cow", syn:["gai"], opts:[["Cow","🐮"],["Cat","🐱"],["Duck","🦆"]]},
+  {q:"Which animal says meow?", a:"cat", syn:["billi","kitty"], opts:[["Cat","🐱"],["Dog","🐶"],["Lion","🦁"]]},
+  {q:"Which animal says woof woof?", a:"dog", syn:["doggy","kutta","puppy"], opts:[["Dog","🐶"],["Fish","🐟"],["Hen","🐔"]]},
+  {q:"Which animal has a long trunk?", a:"elephant", syn:["hathi"], opts:[["Elephant","🐘"],["Rabbit","🐰"],["Monkey","🐵"]]},
+  {q:"Which animal can fly?", a:"bird", syn:["birds","chidiya","parrot"], opts:[["Bird","🐦"],["Cow","🐮"],["Fish","🐟"]]},
+  {q:"Where do fish live?", a:"water", syn:["in water","sea","river","pani"], opts:[["Water","💧"],["Tree","🌳"],["Sky","☁️"]]},
+  {q:"How many legs does a dog have?", a:"four", syn:["4","for"], opts:[["Four","4️⃣"],["Two","2️⃣"],["Six","6️⃣"]]},
+  {q:"How many eyes do you have?", a:"two", syn:["2","to","too"], opts:[["Two","2️⃣"],["Five","5️⃣"],["One","1️⃣"]]},
+  {q:"How many fingers are on one hand?", a:"five", syn:["5"], opts:[["Five","5️⃣"],["Three","3️⃣"],["Ten","🔟"]]},
+  {q:"What do bees make?", a:"honey", syn:["shahad"], opts:[["Honey","🍯"],["Milk","🥛"],["Bread","🍞"]]},
+  {q:"What do cows give us?", a:"milk", syn:["doodh"], opts:[["Milk","🥛"],["Eggs","🥚"],["Honey","🍯"]]},
+  {q:"What shape is a ball?", a:"round", syn:["circle","gol"], opts:[["Round","⚽"],["Square","🟦"],["Star","⭐"]]},
+  {q:"When do we see the sun?", a:"day", syn:["daytime","morning","din"], opts:[["Day","☀️"],["Night","🌙"],["Never","🙈"]]},
+  {q:"When do we see the stars?", a:"night", syn:["at night","raat"], opts:[["Night","🌙"],["Day","☀️"],["Lunch time","🍱"]]},
+  {q:"What do we brush every morning?", a:"teeth", syn:["tooth","daant"], opts:[["Teeth","🦷"],["Shoes","👟"],["Hair","💇"]]},
+  {q:"What do we use to see?", a:"eyes", syn:["eye","aankh"], opts:[["Eyes","👀"],["Ears","👂"],["Nose","👃"]]},
+  {q:"Which fruit is long and yellow?", a:"banana", syn:["kela"], opts:[["Banana","🍌"],["Apple","🍎"],["Grapes","🍇"]]},
+  {q:"What falls from clouds when it rains?", a:"water", syn:["rain","raindrops","barish","pani"], opts:[["Water","🌧️"],["Toys","🧸"],["Candy","🍬"]]},
+  {q:"Which one is very hot?", a:"sun", syn:["the sun","suraj"], opts:[["Sun","☀️"],["Ice","🧊"],["Moon","🌙"]]},
+];
+let qItems=[], qIdx=0, qStarsRound=0, qAttempts=0;
+
+function startQuiz(){
+  qItems = shuffle([...GK]).slice(0, ROUND_LEN);
+  qIdx=0; qStarsRound=0;
+  show("quiz");
+  qNext();
+}
+function qNext(){
+  if(qIdx>=qItems.length) return endRound("gk", qStarsRound, qItems.length, startQuiz);
+  qAttempts=0;
+  const it=qItems[qIdx];
+  $("qProgress").textContent=(qIdx+1)+" / "+qItems.length;
+  $("qRoundStars").textContent="⭐ "+qStarsRound;
+  $("qText").textContent=it.q;
+  $("qFb").textContent=""; $("qFb").className="fb"; $("qHeard").textContent="";
+  const box=$("qOpts"); box.innerHTML="";
+  shuffle([...it.opts]).forEach(([label,emoji])=>{
+    const b=document.createElement("button");
+    b.className="opt"; b.innerHTML="<span>"+emoji+"</span>"+label;
+    b.onclick=()=>qCheck(label,b);
+    box.appendChild(b);
+  });
+  say(it.q);
+}
+$("qRepeat").onclick=()=> say(qItems[qIdx].q);
+$("qSkip").onclick=()=> qReveal(true);
+$("qMic").onclick=()=> listen({
+  onInterim: t=> $("qHeard").textContent='I heard: "'+t+'"',
+  onFinal: t=> qCheck(t),
+  onStop: err=>{ $("qMic").classList.remove("listening"); if(err) $("qMicLabel").textContent="Mic not working — tap an answer!"; }
+});
+$("qMic").addEventListener("click", ()=>{ if(listening) $("qMic").classList.add("listening"); });
+
+function qCheck(heard, btn){
+  const it=qItems[qIdx];
+  if(fuzzyMatch(heard, it.a, it.syn)){
+    if(btn) btn.classList.add("right");
+    qStarsRound++; $("qRoundStars").textContent="⭐ "+qStarsRound;
+    const p=PRAISE[Math.floor(Math.random()*PRAISE.length)];
+    $("qFb").textContent="🎉 "+p; $("qFb").className="fb good";
+    confetti();
+    say(p+" The answer is "+it.a+"!", {}, ()=>setTimeout(qAdvance,300));
+  }else{
+    qAttempts++;
+    if(btn){ btn.classList.add("wrong"); setTimeout(()=>btn.classList.remove("wrong"),700); }
+    if(qAttempts<2){
+      const t=TRY_AGAIN[Math.floor(Math.random()*TRY_AGAIN.length)];
+      $("qFb").textContent="💛 "+t; $("qFb").className="fb try";
+      say(t);
+    }else qReveal(false);
+  }
+}
+function qReveal(skipped){
+  const it=qItems[qIdx];
+  $("qFb").textContent="The answer is: "+it.a+"!";
+  $("qFb").className="fb ans";
+  say((skipped?"":"Good try! ")+"The answer is "+it.a+"!", {}, ()=>setTimeout(qAdvance,900));
+}
+function qAdvance(){ qIdx++; qNext(); }
 </script>
 </body>
 </html>
