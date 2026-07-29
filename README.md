@@ -1,6 +1,12 @@
-# Guess It! 🦁🍎🥕🦜
+# Chinnu — Learn & Play 🐱🦁🧠
 
-A voice-powered learning game for kids (ages 4–12). Look at the picture, **say the answer out loud**, and get gentle, encouraging feedback. Covers animals, birds, fruits, and vegetables, with age-based difficulty and Hindi synonyms (hathi, gajar, baingan…).
+A voice-powered learning app for kids (ages 4–12) — one app, three connected games sharing a child profile and star count:
+
+1. **Guess It!** — identify animals, birds, fruits & veggies by voice, with age-based difficulty and Hindi synonyms (hathi, gajar, baingan…)
+2. **Talking Buddy** — Chinnu the cat repeats whatever the child says in a funny chipmunk voice
+3. **GK Quiz** — easy spoken general-knowledge questions with big picture answers
+
+The app asks the child's name and age once, greets them by name, tracks total stars and games played across all games, and remembers everything between visits (localStorage).
 
 **Built with:** plain HTML/CSS/JS — no build step, no dependencies.
 - Speech recognition: Web Speech API (`en-IN`)
